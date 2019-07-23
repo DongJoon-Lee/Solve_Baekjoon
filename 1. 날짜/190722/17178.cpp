@@ -44,33 +44,37 @@ int main (void) {
 
     int count = 0, h = 0;
     while(count < ans.size()) {
-        if (h != N-1 &&q[h].size() == 0) {
+        if (q[h].empty()) {
             h++;
+            if (h == N) {
+                ret = "BAD";
+                break;
+            }
+            
         }
         if (s.empty()) {
             s.push(q[h].front());
             q[h].pop();
         }
-        if (s.top() == ans[count]) {
-            s.pop();
-            count++;
-            continue;
-        }
-        else if (q[h].front() == ans[count]) {
+        if (q[h].front() == ans[count]) {
             q[h].pop();
             count++;
             continue;
         }
+        else if (s.top() == ans[count]) {
+            s.pop();
+            count++;
+            continue;
+        }
         else {
-            if (h == N-1 && q[N-1].empty()) {
-                if (s.top() != ans[count]) {
+            if (q[h].empty()) {
+                if (h == N-1) {
                     ret = "BAD";
-                    break;    
-                }
-            }
-            else if (s.empty() && q[h].front() != ans[count]) {
-                ret = "BAD";
                     break;
+                }
+                else {
+                    continue;
+                }
             }
             else {
                 s.push(q[h].front());
@@ -78,5 +82,6 @@ int main (void) {
             }
         }
     }
+    
     cout << ret << "\n";
 }
